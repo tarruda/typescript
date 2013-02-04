@@ -1206,12 +1206,27 @@ module TypeScript {
                 if (!name) {
                     finalName = "";
                 } else if (this.sourceMapper.currentNameIndex.length > 0) {
-                    finalName = this.sourceMapper.names[this.sourceMapper.currentNameIndex.length - 1] + "." + name;
+                    var prefixNameIdx = this.sourceMapper.currentNameIndex[this.sourceMapper.currentNameIndex.length - 1];
+                    finalName = this.sourceMapper.names[prefixNameIdx] + "." + name;
                 }
 
                 // We are currently not looking for duplicate but that is possible.
+                finalName = this.findNonConflictingMappingName(finalName);
+                this.sourceMapper.namesMap[finalName] = true;
                 this.sourceMapper.names.push(finalName);
                 this.sourceMapper.currentNameIndex.push(this.sourceMapper.names.length - 1);
+            }
+        }
+        
+        private findNonConflictingMappingName(baseName : string){
+            var suffixNum : number = 1;
+            var nameToCheck : string = baseName;
+            while(true) {
+                if(!this.sourceMapper.namesMap[nameToCheck]) {
+                    return nameToCheck;
+                }
+                suffixNum++;
+                nameToCheck = baseName+"#"+suffixNum;
             }
         }
 
