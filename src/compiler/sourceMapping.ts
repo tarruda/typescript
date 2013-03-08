@@ -38,6 +38,7 @@ module TypeScript {
         public currentMappings: SourceMapping[][] = [];
 
         public names: string[] = [];
+        public namesMap: { [index: string]: bool; } = {}; 
         public currentNameIndex: number[] = [];
 
         public jsFileName: string;

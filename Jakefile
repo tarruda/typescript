@@ -170,7 +170,7 @@ var useDebugMode = false;
 function compileFile(outFile, sources, prereqs, prefixes, useBuiltCompiler) {
 	file(outFile, prereqs, function() {
 		var dir = useBuiltCompiler ? builtLocalDirectory : LKGDirectory;
-		var cmd = (process.env.TYPESCRIPT_HOST || "Node") + " " + dir + "tsc.js -cflowu " + sources.join(" ") + " -out " + outFile;
+		var cmd = (process.env.TYPESCRIPT_HOST || "node") + " " + dir + "tsc.js -cflowu " + sources.join(" ") + " -out " + outFile;
 		if (useDebugMode) {
 			cmd = cmd + " -sourcemap -fullSourceMapPath";
 		}
@@ -274,7 +274,7 @@ task("runtests", ["tests", builtTestDirectory], function() {
 		jake.rmRf(localBaseline);
 	}
 	jake.mkdirP(localBaseline);
-	host = process.env.host || process.env.TYPESCRIPT_HOST || "Node";
+	host = process.env.host || process.env.TYPESCRIPT_HOST || "node";
 	tests = process.env.test || process.env.tests;
 	tests = tests ? tests.split(',').join(' ') : ([].slice.call(arguments).join(' ') || "");
 	var cmd = host + " " + run + " " + tests;
